@@ -1,0 +1,100 @@
+<html>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#plugin-menu .plugin-nav a").click(function () {
+            jQuery("#plugin-menu .content > ul").hide();
+            jQuery("#plugin-menu .plugin-nav ul li").removeClass("active");
+            jQuery(this).parent().addClass("active");
+            jQuery("#" + jQuery(this).data("toggle")).show();
+            return false;
+        });
+    });
+</script>
+<p class="page-header">
+
+    <span class="lead">Piloter votre bbox sensation à la voix</span><br/></br>
+	<b>Version 0.9</b></br></br>
+</p>
+
+<div id="plugin-menu" class="row-fluid">
+    <!--Navigation-->
+    <div class="span3 well plugin-nav">
+        <ul class="nav nav-list">
+            <li class="nav-header">Documentation</li>
+            <li><a href="#" data-toggle="plugin-installation">Installation</a></li>
+            <li><a href="#" data-toggle="plugin-principe">Le Principe</a></li>
+            <li><a href="#" data-toggle="plugin-examples">Exemples</a></li>
+            <li><a href="#" data-toggle="plugin-infos">Infos</a></li>
+            <li><a href="#" data-toggle="plugin-version">Historique des Versions</a></li>
+        </ul>
+    </div>
+    <!--Content-->
+    <div class="span9 content">
+       <!--Principe-->
+        <ul class="unstyled" id="plugin-installation" >
+        	<li><strong>Installation :</strong><br/>
+			Il est nécessaire de trouver l'IP de la setUpBox Sensation et de la saisir dans les properties<br/>
+				<ul>
+					<i>chez moi elle a l'IP suivante : <strong>192.168.1.98</strong></i>
+				<ul>
+
+			</li>
+        </ul>
+    </div>
+
+    <div class="span9 content">
+       <!--Principe-->
+        <ul class="unstyled" id="plugin-version" style="display: none";>
+        	<li><strong>Version 0.9 (Olivier Chanteloup) :</strong></li>
+			<li><i class="icon-play-circle"></i> [X] Réorganisation du code du plugin pour le rendre moins brouillon</li>
+			<li><i class="icon-play-circle"></i> [X] Ajout l'appel directe à une chaine par son nom.</li>
+			</br>
+			<li><strong>Version 0.8 (Olivier Chanteloup) :</strong></li>
+			<li><i class="icon-play-circle"></i> [X] Version de base</li>
+			<li><i class="icon-play-circle"></i> [X] Pilotage des flèches et + et - sur le son et les chaines
+        </ul>
+    </div>
+    <div class="span9 content">
+        <!--Principe-->
+        <ul class="unstyled" id="plugin-principe" style="display: none";>
+        	<li><strong>Principe :</strong><br/>
+        		Transforme les ordres vocaux interprétés par SARAH, en requêtes SNMP envoyé a la BBox Sensation
+        	</li>
+        	<br/>
+			
+        </ul>
+    </div>
+		<!--Content-->
+    <div class="span9 content">
+       <!--Principe-->
+		
+      <!--fonctionnement-->
+        <ul class="unstyled" id="plugin-fonctionnement" style="display: none;">
+            <li><i class="icon-play-circle"></i><strong> Sarah recoit une nouvelle requète:</strong></br>
+			La requète est traitée:</br>
+			Génération de askme.xml pour prendre en compte réponse et action.</br>
+			La requète est ajoutée dans le fichier askme.json</br>
+			Sarah pose la question et attends la réponse durant le temps <em>timeout</em>.</br></br>
+
+          
+        </ul>
+
+        <!--Exemples -->
+        <ul class="unstyled" id="plugin-examples" style="display: none;">
+            <li><i class="icon-play-circle"></i> <strong>Augmenter le son :</strong> SARAH, augmente le son de la bbox</li>
+            <li><i class="icon-play-circle"></i> <strong>Visionner TF1 :</strong> SARAH, zappe sur TF1.</li>
+
+        </ul>
+
+		<!--Infos-->
+        <ul class="unstyled" id="plugin-infos" style="display: none;">
+        	<li>Ce plungin emprunte l'architecture et du code au plugin liveboxtv de Ferreira Agostinho; merci beaucoup à lui.</li><br/>
+			<li>il est basé sur le retro ingéniering de domitex, voici la référence de l'article <a href="http://domitex.blogspot.fr/2013/01/have-fun-avec-la-bbox-sensation.html">http://domitex.blogspot.fr/2013/01/have-fun-avec-la-bbox-sensation.html.</a></li><br/>
+
+			<li>Pour vos rapport de bug ou demande de modifications, poster dans la communauté ou envoyé un mail a chante42 at gmail.com</li>
+
+            
+        </ul> 
+    </div>
+</div></body>
+</html>

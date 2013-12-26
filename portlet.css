@@ -1,0 +1,9 @@
+.plugin-gridster.bboxTV .front {
+  background: #FFFFFF url('images/bboxTV.jpg') center 25px;
+  background-size:   150px 150px;
+  background-repeat: no-repeat;
+}
+
+.plugin-gridster.bboxTV .back {
+  background: #FFFFFF;
+}

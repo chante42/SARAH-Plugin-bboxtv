@@ -1,0 +1,49 @@
+Doc technique bbox sensation
+
+
+
+
+8 eme chaine
+/volume1/homes/zibase/scripts/zibaseStore #snmpset -v1 -c public 192.168.1.98 1.3.6.1.4.1.8711.101.13.1.3.28.0 s 57
+SNMPv2-SMI::enterprises.8711.101.13.1.3.28.0 = STRING: "57"
+
+Arrêt dela bbox
+
+/volume1/homes/zibase/scripts/zibaseStore #snmpset -v1 -c public 192.168.1.98 1.3.6.1.4.1.8711.101.13.1.3.28.0 s 30
+SNMPv2-SMI::enterprises.8711.101.13.1.3.28.0 = STRING: "30"
+
+Fonction        Valeur (String)
+Arrêt/marche   0
+1       50
+2       51
+3       52
+4       53
+5       54
+6       55
+7       56
+8       57
+9       58
+0       59
+Chaine +        25
+Chaine -        26
+Volume Up       27
+Volume down       28
+Ok      7
+Fléche Haut    5
+Fléche Gauche  6
+Fléche Bas     9
+Fléche Droite  8
+Mute    32
+Retour  13
+Quitter 16
+VOD     30
+M@TV    46
+Infos   15
+Maison  12
+Liste   45
+Guide   31
+Rewind  18
+Play/Pause      23
+Stop    20
+Rec     24
+Avance rapide   19

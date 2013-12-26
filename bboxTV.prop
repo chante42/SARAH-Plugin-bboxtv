@@ -1,0 +1,9 @@
+{
+	"modules" : { 
+	    "bboxTV"  : {
+	      "description": "Permet de piloter la STB BBox Sensation",
+	      "version" : "0.9",
+	      "adress_ip" : "192.168.1.98"
+	    }
+	}
+}
