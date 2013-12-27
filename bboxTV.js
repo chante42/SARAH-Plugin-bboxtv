@@ -11,9 +11,9 @@ var snmp = require ("./lib/net-snmp");
 	};
 
 
-
+var sarahLocal;
 exports.init = function (config, SARAH){
-	
+
 }
 
 
@@ -65,7 +65,9 @@ var sendOrder = function(ordres) {
 
 	session.set (varbinds, function (error, varbinds) {
 	    if (error) {
-	        console.error ("snmp" + error.toString ());
+	        console.error ("snmp :" + error.toString ());
+	        sarahLocal.speak("La bibox ne répond pas, êtes vous sure qu'elle est branché ?");
+
 	    } else {
 	        console.log ("message snmp envoyé");
 	        
@@ -76,7 +78,7 @@ var sendOrder = function(ordres) {
 
 exports.action = function(data, callback, config, SARAH){
 	var ordre = new Array();
-
+	sarahLocal = SARAH;
 	// initialise le mobude SNMP.
 	config = config.modules.bboxTV;
   	if (!config.adress_ip){
