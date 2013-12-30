@@ -1,3 +1,61 @@
+//
+//
+// Saisir ici le nom que vous voulez associé au périphérique dons l'adresse MAC est l'indice du tableau associatif
+//
+var hosts={};
+hosts['00:06:66:72:1a:db'] ='camera gabriel cable';
+hosts['00:12:04:a0:23:af'] ="camera gabriel wifi";
+hosts['98:fe:94:00:48:c8'] = "iphone 5 de Chante";
+hosts['68:09:27:bf:76:0e'] = "iphone 4S de chante";
+hosts['00:18:7f:00:50:ae'] = "Zibase";
+hosts['00:11:32:0a:2b:05'] = "Synology";
+hosts['1c:6f:65:d3:ca:e2'] = "i5";
+hosts['00:21:6b:1e:79:c2'] = "portable Sylvie wifi";
+hosts['74:f0:6d:6e:3f:36'] = "PAW";
+hosts['b8:27:eb:30:a8:63'] = "raspberry pi xbmc cable";
+hosts['80:1f:02:9b:ad:2b'] = "raspberry pi xbmc wifi";
+hosts['d4:3d:7e:7d:2d:05'] = "PC fixe Sylvie";
+hosts['00:19:df:95:a8:57'] = "STB tele salon";
+hosts['00:19:db:9e:bc:26'] = "Nabaztag";
+hosts['04:1e:64:79:0c:c1'] = "Iphone 3GS salle de bain";
+hosts['5c:0a:5b:93:80:99'] = "Telephone Samsung Sylvie";
+hosts['3c:8b:fe:41:15:07'] = "Tablette Galaxy tab gabriel";
+hosts['d8:a2:5e:05:71:41'] = "IPAD Benjamin";
+hosts['38:e7:d8:dc:0b:6c'] = "TEL Linda";
+hosts['5c:0a:5b:37:dd:1f'] = "TEL Benjamin";
+hosts['b8:27:eb:e6:66:95'] = "raspberry pi test cable";
+hosts['a def3           '] = "raspberry pi test wifi";
+hosts['f4:81:39:18:9a:44'] = "imprimante CANON MG5350 Wifi";
+hosts['2c:39:96:52:63:61'] = "STB sensation";
+
+//
+// function : CRON
+//
+exports.cron = function(callback, config, task){
+  
+  //console.log("Process CRON : ");
+  
+  		
+  setTimeout((function() {
+	infos(config);
+	}), 1000);
+	
+	callback({'tts': ""});
+}
+
+var dataInfos;
+
+//
+// function : info
+//
+var infos = function (config) {
+	
+	console.log(" -> BboxTV : Data info");
+	
+	return dataInfos;	
+};
+exports.infos = infos;
+
 
 // Paramètre de configuration des requêtes SNMP 
 var snmp = require ("./lib/net-snmp");
@@ -18,7 +76,7 @@ exports.init = function (config, SARAH){
 
 
 //
-// sleep 
+// function :  sleep 
 //
 // Attends un nombre de miliseconde avant de rendre la main
 function sleep(milliseconds) {
@@ -76,18 +134,31 @@ var sendOrder = function(ordres) {
 
 }
 
+//
+// function : status
+//
+var status = function(config, SARAH){
+  return state;
+}
+exports.status = status;
+
+
+//
+// function :  action
+//
 exports.action = function(data, callback, config, SARAH){
 	var ordre = new Array();
 	sarahLocal = SARAH;
 	// initialise le mobude SNMP.
+	configOrig = config;
 	config = config.modules.bboxTV;
-  	if (!config.adress_ip){
+  	if (!config.adress_ip_stb){
     	callback({ 'tts': 'Vous devez configurer le plugin bboxTV avec le adresse I.P du décodeur Bbox Sensation' });
     	console.log('Vous devez configurer le plugin bboxTV avec le adresse I.P du décodeur Bbox Sensation');
     	return;
   	}
   	else {
-	  session = snmp.createSession (config.adress_ip, "public", snmpOptions);
+	  session = snmp.createSession (config.adress_ip_stb, "public", snmpOptions);
 	}
 
 	// Si aucune "key" n'est passée, ça veut dire qu'on n'a pas reçu d'ordre
@@ -97,6 +168,12 @@ exports.action = function(data, callback, config, SARAH){
 	}
 	console.log("key"+data.key);
 
+	if (data.key == "config") {
+		quiEstLaBbox(data, callback, configOrig, SARAH);
+
+		callback({ 'tts': 'config' });
+		return;
+	}
 	// Si chaine et inferieur a 3 cela veux dire que c une chaine si egal 4 action telecommande
    	var lenKey = data.key.length ;
 
@@ -159,3 +236,154 @@ exports.action = function(data, callback, config, SARAH){
 }
 
 
+
+// appel manuel par : http://127.0.0.1:8080/sarah/quiEstLaBbox/
+//
+// function  : action2 TMPTMTPTMPTMPT
+//
+quiEstLaBbox = function(data, callback, config, SARAH){
+
+	config = config.modules.bboxTV;
+	console.log(config.my_url);
+
+	if (!config.my_url) {
+		callback({'tts' :'Paramètre invalide'});
+		return; 
+	}
+
+	url = config.my_url;
+	sendURL(url, callback, function(body){
+
+		var reIP = new RegExp('var listParamLANHostConf.*', 'g'); 
+		// recherche de la variable : var listParamLANHostConf 
+		tmp  = reIP.exec(body );
+
+		// traitement d'erreur si la page ne contient pas la chaine recherché
+		if (tmp !== null) {
+			bodyIP = tmp[0];
+		}
+		else {  
+			callback({'tts': 'parse error dans la recherche des IP connecté sur réseau géré par la BBOX'});
+			return;
+		}
+
+		// recherche des equipement qui on une IP 
+		bodyIP = bodyIP.replace('var listParamLANHostConf = eval(\'(','');  
+		bodyIP = bodyIP.replace(')\');','');
+
+		if ( CheckJson(bodyIP)=== false) {
+        	callback({'tts': "parse error dans la recherche des IP connecté sur réseau géré par la BBOX"})
+        	return;
+        }
+		// parse le json
+		var json = JSON.parse(bodyIP);
+		console.log('--------------------------------------------');
+		//console.log('JSON', json);
+
+		var resultat="";
+		var util = require('util');
+
+		for (var line  in json) {
+			if (line !="Count") {
+				
+				if (json[line].Active == "1") {
+ 
+					resultat = resultat + util.format('%s\t[%s]\t[%s]\t%s\t[%s]\t[%s]=> ',
+						json[line].IPAddress,
+						json[line].MACAddress,
+						json[line].Hostname,
+						json[line].LeaseRemaining,
+						json[line].AddressingType,
+						json[line].InterfaceType);
+					try {
+						resultat = resultat +"\t"+hosts[json[line].MACAddress]+".\n";
+					}
+					catch(e) {
+						resultat = resultat + "\n";
+					}
+				}
+			}
+		}
+
+		console.log(resultat);
+
+		// recherche de l'IP de la SetUpBox en recherchant l'object JSON : ManageableDevices
+		var reSTB = new RegExp('var ManageableDevices.*', 'g'); 
+		// recherche de la variable : var listParamLANHostConf 
+		tmp  = reSTB.exec(body );
+
+		// traitement d'erreur si la page ne contient pas la chaine recherché
+		if (tmp !== null) {
+			bodySTB = tmp[0];
+		}
+		else {  
+			callback({'tts': "parse error dans la recherche des IP connecté sur réseau géré par la BBOX"});
+			return;
+		}
+
+		bodySTB = bodySTB.replace('var ManageableDevices = ','');  
+		bodySTB = bodySTB.replace(';','');  
+		console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+		console.log (bodySTB);
+
+        if ( CheckJson(bodySTB)=== false) {
+        	callback({'tts': "parse error dans la recherche des IP connecté sur réseau géré par la BBOX"})
+        	return;
+        }
+		var json1 = JSON.parse(bodySTB);
+
+		//"MACAddress" : "2c:39:96:52:63:61","IPAddress" : "192.168.1.98"		
+		resultat = resultat + "\n\n["+ json1.Device[1].MACAddress +"] =>";
+		resultat = resultat + json1.Device[1].IPAddress;
+
+		resultatHTML = resultat.replace(/\n/g,"<BR>");
+		console.log(resultat);
+		callback({'tts': resultatHTML});
+		
+	});
+
+	
+}
+
+var request = require('request');
+
+//
+// function : sendURL
+//
+var sendURL = function(url, callback, cb) {
+	// le user-agent est nécessaire, sinon le 1er appel fonctionne mais pas les autre request ne se termine jamais
+	// Merci JP Encausse.
+	request.post({uri : url, 
+			  headers: {
+        			'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'
+        		}
+    }, function (err, response, body){
+		if (err ||response.statusCode != 200) {
+			callback({'tts' : 'L action a échoué'});
+			return;
+		}
+		
+		cb(body);
+		
+	});
+
+}
+
+//
+// function : CheckMACAddress
+//
+function CheckMACAddress(macAddr) {
+    var regExpIP = new RegExp("^([0-9a-f]{2}([:-]|$)){6}$");
+    if (!regExpIP.test(macAddr)) return false;
+    
+	return true;
+}
+
+//
+// function : CheckJson
+//
+function CheckJson(jsonString) {
+	return( !(/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(jsonString.replace(/"(\\.|[^"\\])*"/g, ''))) && 
+		eval('(' + jsonString + ')'));
+}
+        

@@ -1,9 +1,21 @@
 {
+	"cron" : {
+	    "bboxTV" : {
+	      	"name"        : "bboxTV",
+	      	"description" : "Permet de rafraichir les informations du portlet pour le plugin bboxTV.",
+	      	"version"     : "0.9",
+	      	"y"           : "3",
+	      	"w"           : "2",
+	      	"time"        : "* * * * *"
+	    }
+  	},
+
 	"modules" : { 
 	    "bboxTV"  : {
 	      "description": "Permet de piloter la STB BBox Sensation",
 	      "version" : "0.9",
-	      "adress_ip" : "192.168.1.98"
+	      "adress_ip_stb" : "192.168.1.98",
+	      "my_url" : "http://gestionbbox.lan/novice/index.htm"
 	    }
 	}
 }
