@@ -169,9 +169,9 @@ exports.action = function(data, callback, config, SARAH){
 	console.log("key"+data.key);
 
 	if (data.key == "config") {
-		quiEstLaBbox(data, callback, configOrig, SARAH);
+		chaine = quiEstLaBbox(data, callback, configOrig, SARAH);
 
-		callback({ 'tts': 'config' });
+		callback({ 'tts': chaine });
 		return;
 	}
 	// Si chaine et inferieur a 3 cela veux dire que c une chaine si egal 4 action telecommande
@@ -247,8 +247,7 @@ quiEstLaBbox = function(data, callback, config, SARAH){
 	console.log(config.my_url);
 
 	if (!config.my_url) {
-		callback({'tts' :'Paramètre invalide'});
-		return; 
+		return('Paramètre invalide'); 
 	}
 
 	url = config.my_url;
@@ -263,8 +262,7 @@ quiEstLaBbox = function(data, callback, config, SARAH){
 			bodyIP = tmp[0];
 		}
 		else {  
-			callback({'tts': 'parse error dans la recherche des IP connecté sur réseau géré par la BBOX'});
-			return;
+			return('parse error dans la recherche des IP connecté sur réseau géré par la BBOX');
 		}
 
 		// recherche des equipement qui on une IP 
@@ -272,8 +270,7 @@ quiEstLaBbox = function(data, callback, config, SARAH){
 		bodyIP = bodyIP.replace(')\');','');
 
 		if ( CheckJson(bodyIP)=== false) {
-        	callback({'tts': "parse error dans la recherche des IP connecté sur réseau géré par la BBOX"})
-        	return;
+        	return("parse error dans la recherche des IP connecté sur réseau géré par la BBOX");
         }
 		// parse le json
 		var json = JSON.parse(bodyIP);
@@ -317,8 +314,7 @@ quiEstLaBbox = function(data, callback, config, SARAH){
 			bodySTB = tmp[0];
 		}
 		else {  
-			callback({'tts': "parse error dans la recherche des IP connecté sur réseau géré par la BBOX"});
-			return;
+			return("parse error dans la recherche des IP connecté sur réseau géré par la BBOX");
 		}
 
 		bodySTB = bodySTB.replace('var ManageableDevices = ','');  
@@ -327,8 +323,8 @@ quiEstLaBbox = function(data, callback, config, SARAH){
 		console.log (bodySTB);
 
         if ( CheckJson(bodySTB)=== false) {
-        	callback({'tts': "parse error dans la recherche des IP connecté sur réseau géré par la BBOX"})
-        	return;
+        	return("parse error dans la recherche des IP connecté sur réseau géré par la BBOX")
+        	
         }
 		var json1 = JSON.parse(bodySTB);
 
@@ -338,7 +334,7 @@ quiEstLaBbox = function(data, callback, config, SARAH){
 
 		resultatHTML = resultat.replace(/\n/g,"<BR>");
 		console.log(resultat);
-		callback({'tts': resultatHTML});
+		return(resultatHTML);
 		
 	});
 
