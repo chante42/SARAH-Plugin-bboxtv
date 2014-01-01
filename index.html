@@ -1,6 +1,8 @@
 <html>
+
 <script type="text/javascript">
     jQuery(document).ready(function () {
+        document.getElementById('plugin-title').innerHTML='<div id="bboxtv-title" style="margin-top:-60px"><img src="assets/bboxTV/images/bytel.jpg" width="180px"/>bboxTV <img src="assets/bboxTV/images/bboxTV.jpg"  style="padding-left:50px" width="200px"/></div>';
         jQuery("#plugin-menu .plugin-nav a").click(function () {
             jQuery("#plugin-menu .content > ul").hide();
             jQuery("#plugin-menu .plugin-nav ul li").removeClass("active");
@@ -10,10 +12,13 @@
         });
     });
 </script>
-<p class="page-header">
 
-    <span class="lead">Piloter votre bbox sensation à la voix</span><br/></br>
-	<b>Version 0.9</b></br></br>
+<p class="page-header" style="margin-top:0px">
+
+    <span class="lead">Piloter votre bbox sensation à la voix ou en Web</span>
+    
+    <br/></br>
+	<b>Version 1.0</b></br></br>
 </p>
 
 <div id="plugin-menu" class="row-fluid">
@@ -45,6 +50,11 @@
     <div class="span9 content">
        <!--Principe-->
         <ul class="unstyled" id="plugin-version" style="display: none";>
+            <li><strong>Version 1.0 (Olivier Chanteloup) :</strong></li>
+            <li><i class="icon-play-circle"></i> [X] Ajout des fonction de récupération des IP connecté a la bbox</li>
+            <li><i class="icon-play-circle"></i> [X] Ajout d'une fonction d'aide à la configuration de bbox sensation (STB)</li>
+            <li><i class="icon-play-circle"></i> [X] Ajout de la télécommande sur le web</li>
+            </br>
         	<li><strong>Version 0.9 (Olivier Chanteloup) :</strong></li>
 			<li><i class="icon-play-circle"></i> [X] Réorganisation du code du plugin pour le rendre moins brouillon</li>
 			<li><i class="icon-play-circle"></i> [X] Ajout l'appel directe à une chaine par son nom.</li>

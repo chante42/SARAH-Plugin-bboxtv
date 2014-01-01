@@ -22,6 +22,7 @@
       <item>mets en lecture la bibox        <tag>out.action.key="O023";</tag></item>
       <item>mets en avance rapide la bibox  <tag>out.action.key="O019";</tag></item>
 	  <item>mets en retour rapide la bibox  <tag>out.action.key="O018";</tag></item>
+	  <item>bibox stop                      <tag>out.action.key="O020";</tag></item>
       <item>les infos du programme          <tag>out.action.key="O015";</tag></item>
       <item>enlève les infos                <tag>out.action.key="O015";</tag></item>
       <item>bibox OK                        <tag>out.action.key="O007";</tag></item>

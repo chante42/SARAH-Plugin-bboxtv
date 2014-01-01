@@ -102,7 +102,7 @@ var sendOrder = function(ordres) {
 	 }		
 
 	 while(i< ordres.length) {
-	 	console.log("sendOrder " + ordres[i]);
+	 	//console.log("sendOrder " + ordres[i]);
 		varbinds[j++] =
 		    {
 		        oid: "1.3.6.1.4.1.8711.101.13.1.3.28.0",
@@ -110,20 +110,12 @@ var sendOrder = function(ordres) {
 		        value: ordres[i]
 		    };    
 
-		// pour essayer d'améliorer  les suite d'ordre pour les chaine > 10
-		//varbinds[j++] =
-		//    {
-		//        oid: "1.3.6.1.4.1.8711.101.13.1.3.28.0",
-		//        type: snmp.ObjectType.OctetString,
-		//        value: "1"
-		//    };    
-
 		i++; 
 	}
 
 	session.set (varbinds, function (error, varbinds) {
 	    if (error) {
-	        console.error ("snmp :" + error.toString ());
+	        console.error ("bboxTV (snmp ):" + error.toString ());
 	        sarahLocal.speak("La bibox ne répond pas, êtes vous sure qu'elle est branché ?");
 
 	    } else {
