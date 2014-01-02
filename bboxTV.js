@@ -28,16 +28,17 @@ hosts['a def3           '] = "raspberry pi test wifi";
 hosts['f4:81:39:18:9a:44'] = "imprimante CANON MG5350 Wifi";
 hosts['2c:39:96:52:63:61'] = "STB sensation";
 
+var UrlModem="";
 //
 // function : CRON
 //
-exports.cron = function(callback, config, task){
+exports.cron = function(callback, task, SARAH){
   
   //console.log("Process CRON : ");
   
   		
   setTimeout((function() {
-	infos(config);
+	infos(task);
 	}), 1000);
 	
 	callback({'tts': ""});
@@ -51,9 +52,14 @@ var dataInfos;
 var infos = function (config) {
 	
 	console.log(" -> BboxTV : Data info");
+
+	var result=quiEstLaBbox(config);
+
 	
-	return dataInfos;	
+
+	
 };
+
 exports.infos = infos;
 
 
@@ -71,7 +77,8 @@ var snmp = require ("./lib/net-snmp");
 
 var sarahLocal;
 exports.init = function (config, SARAH){
-
+	
+  	
 }
 
 
@@ -126,13 +133,6 @@ var sendOrder = function(ordres) {
 
 }
 
-//
-// function : status
-//
-var status = function(config, SARAH){
-  return state;
-}
-exports.status = status;
 
 
 //
@@ -144,6 +144,9 @@ exports.action = function(data, callback, config, SARAH){
 	// initialise le mobude SNMP.
 	configOrig = config;
 	config = config.modules.bboxTV;
+	// je suis obliger de tricher car le task de la crontab ne permet pas de recuperer les parametres
+  	UrlModem = config.url_modem;
+
   	if (!config.adress_ip_stb){
     	callback({ 'tts': 'Vous devez configurer le plugin bboxTV avec le adresse I.P du décodeur Bbox Sensation' });
     	console.log('Vous devez configurer le plugin bboxTV avec le adresse I.P du décodeur Bbox Sensation');
@@ -160,8 +163,12 @@ exports.action = function(data, callback, config, SARAH){
 	}
 	console.log("key"+data.key);
 
+	if (data.key == "bboxIP") {
+		callback(quiEstLaBbox(config));
+		return;
+	}
 	if (data.key == "config") {
-		chaine = quiEstLaBbox(data, callback, configOrig, SARAH);
+		chaine = quiEstLaBbox(configOrig);
 
 		callback({ 'tts': chaine });
 		return;
@@ -231,19 +238,17 @@ exports.action = function(data, callback, config, SARAH){
 
 // appel manuel par : http://127.0.0.1:8080/sarah/quiEstLaBbox/
 //
-// function  : action2 TMPTMTPTMPTMPT
+// function  : quiEstLaBbox
 //
-quiEstLaBbox = function(data, callback, config, SARAH){
+quiEstLaBbox = function(config){
 
-	config = config.modules.bboxTV;
-	console.log(config.my_url);
 
-	if (!config.my_url) {
-		return('Paramètre invalide'); 
+	if (!UrlModem) {
+		return("<br/><strong>Paramètre invalide : l'url du Modem n'est pas définie</strong><br/>"); 
 	}
 
-	url = config.my_url;
-	sendURL(url, callback, function(body){
+	url = UrlModem;
+	sendURL(url, function(body){
 
 		var reIP = new RegExp('var listParamLANHostConf.*', 'g'); 
 		// recherche de la variable : var listParamLANHostConf 
@@ -324,13 +329,19 @@ quiEstLaBbox = function(data, callback, config, SARAH){
 		resultat = resultat + "\n\n["+ json1.Device[1].MACAddress +"] =>";
 		resultat = resultat + json1.Device[1].IPAddress;
 
-		resultatHTML = resultat.replace(/\n/g,"<BR>");
+		resultatHTML = resultat.replace(/\n/g,"<BR/>");
 		console.log(resultat);
-		return(resultatHTML);
+
+		// sauvegarde dans le fichier de resultat
+		var fs = require('fs');
+		var file = 'plugins/bboxTV/ListeIp.html';
+		fs.writeFileSync(file, resultatHTML, { encoding: 'utf8', flag: 'w'});
+		return;
 		
 	});
 
 	
+		
 }
 
 var request = require('request');
@@ -338,7 +349,7 @@ var request = require('request');
 //
 // function : sendURL
 //
-var sendURL = function(url, callback, cb) {
+var sendURL = function(url, cb) {
 	// le user-agent est nécessaire, sinon le 1er appel fonctionne mais pas les autre request ne se termine jamais
 	// Merci JP Encausse.
 	request.post({uri : url, 
@@ -347,7 +358,7 @@ var sendURL = function(url, callback, cb) {
         		}
     }, function (err, response, body){
 		if (err ||response.statusCode != 200) {
-			callback({'tts' : 'L action a échoué'});
+			console.log("bboxTV : sendURL  -> L'action a échoué");
 			return;
 		}
 		

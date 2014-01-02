@@ -12,12 +12,12 @@
 
 	"modules" : { 
 	    "bboxTV"  : {
-	      "description": "Permet de piloter la STB BBox Sensation",
-	      "version" 	: "0.9",
-	      "h"           : "3",
-	      "w"           : "1",
-	      "adress_ip_stb" : "192.168.1.98",
-	      "my_url" : "http://gestionbbox.lan/novice/index.htm"
+	      "description"		: "Permet de piloter la STB BBox Sensation",
+	      "version" 		: "0.9",
+	      "h"           	: "3",
+	      "w"           	: "1",
+	      "adress_ip_stb" 	: "192.168.1.98",
+	      "url_modem"	 	: "http://gestionbbox.lan/novice/index.htm"
 	    }
 	}
 }

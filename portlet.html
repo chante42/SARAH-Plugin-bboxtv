@@ -1,15 +1,32 @@
 <% stylesheet('assets/'+key+'/portlet.css') %>
-<script type="text/javascript">
-function  callSTB(url) {
-	myUrl="/sarah/bboxTV/?key="+url;
-	console.log(myUrl);
-	$.ajax(myUrl);
-}
-</script>
 
 <strong>bboxTV</strong>
 <img src="assets/bboxTV/images/telecommande1.png" usemap="#map" />
-<div id="bbox-IP" onmouseover="console.log('onmouseover')">Equipement connectés</div>
+<div id="bbox-IP" >Equipement connectés</div>
+
+<div id="bbox-data" style="position:absolute;visibility;background-color:#FFEEC7; border:1px solid yellow;padding:0.2em; font-size:0.8em">info bulz
+e
+e
+e
+e
+e
+e
+e
+e
+e
+e
+e
+e
+e
+e
+e
+e
+ee
+e
+e
+e
+</div>
+
 <map name="map">
 <!-- #$-:Image map file created by GIMP Image Map plug-in -->
 <!-- #$-:GIMP Image Map plug-in by Maurits Rijk -->
@@ -51,3 +68,22 @@ function  callSTB(url) {
 <area shape="rect" coords="9,412,130,435" alt="play" target="play" href="#" onclick="callSTB('O023'); return(false)" />
 </map>
 
+
+<script type="text/javascript">
+	$(document).ready(
+	  function() {
+		$("#bbox-data").load('/assets/bboxTV/ListeIp.html');
+	});
+	var auto_refresh = setInterval(
+	  function() {
+		$("#bbox-data").load('/assets/bboxTV/ListeIp.html');
+	  }, 120000); 
+
+function  callSTB(url) {
+	myUrl="/sarah/bboxTV/?key="+url;
+	console.log(myUrl);
+	$.ajax(myUrl);
+}
+$("#bbox-data").hide();
+$("#bbox-IP").on("mouseenter", function() {$("#bbox-data").show();console.log("in"); }).on("mouseleave",function(){$("#bbox-data").hide();console.log("out")});
+</script>
