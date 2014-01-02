@@ -15,7 +15,7 @@
 
 <p class="page-header" style="margin-top:0px">
 
-    <span class="lead">Piloter votre bbox sensation à la voix ou en Web</span>
+    <span class="lead">Piloter votre bbox sensation à la voix ou sur le portlet</span>
     
     <br/></br>
 	<b>Version 1.0</b></br></br>
@@ -23,7 +23,7 @@
 
 <div id="plugin-menu" class="row-fluid">
     <!--Navigation-->
-    <div class="span3 well plugin-nav">
+    <div class="span3 well plugin-nav" style="margin-bottom:0px">
         <ul class="nav nav-list">
             <li class="nav-header">Documentation</li>
             <li><a href="#" data-toggle="plugin-installation">Installation</a></li>
@@ -37,23 +37,29 @@
     <div class="span9 content">
        <!--Principe-->
         <ul class="unstyled" id="plugin-installation" >
-        	<li><strong>Installation :</strong><br/>
+            <h3>Installation :</h3>
+        	<li><strong>Ip SetUpBox:</strong><br/>
 			Il est nécessaire de trouver l'IP de la setUpBox Sensation et de la saisir dans les properties<br/>
 				<ul>
 					<i>chez moi elle a l'IP suivante : <strong>192.168.1.98</strong></i>
-				<ul>
-
+				</ul>
+            
 			</li>
+            <br/>
+            <li><strong>equivalence Mac adresse <=> Nom des equipements:</strong><br/>
+                Mettez a jours le tableau des nom des equipement en fonction de leur adresse map dans le fichier bboxTV.js
+            </li>
         </ul>
     </div>
 
     <div class="span9 content">
        <!--Principe-->
         <ul class="unstyled" id="plugin-version" style="display: none";>
+            <h3>Historique des versions :</h3>
             <li><strong>Version 1.0 (Olivier Chanteloup) :</strong></li>
             <li><i class="icon-play-circle"></i> [X] Ajout des fonction de récupération des IP connecté a la bbox</li>
             <li><i class="icon-play-circle"></i> [X] Ajout d'une fonction d'aide à la configuration de bbox sensation (STB)</li>
-            <li><i class="icon-play-circle"></i> [X] Ajout de la télécommande sur le web</li>
+            <li><i class="icon-play-circle"></i> [X] Ajout de la télécommande sur le portlet </li>
             </br>
         	<li><strong>Version 0.9 (Olivier Chanteloup) :</strong></li>
 			<li><i class="icon-play-circle"></i> [X] Réorganisation du code du plugin pour le rendre moins brouillon</li>
