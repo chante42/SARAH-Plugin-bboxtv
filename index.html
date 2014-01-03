@@ -18,7 +18,7 @@
     <span class="lead">Piloter votre bbox sensation à la voix ou sur le portlet</span>
     
     <br/></br>
-	<b>Version 1.0</b></br></br>
+	<b>Version 1.0</b>
 </p>
 
 <div id="plugin-menu" class="row-fluid">
@@ -31,6 +31,7 @@
             <li><a href="#" data-toggle="plugin-examples">Exemples</a></li>
             <li><a href="#" data-toggle="plugin-infos">Infos</a></li>
             <li><a href="#" data-toggle="plugin-version">Historique des Versions</a></li>
+            <li><a href="#" data-toggle="plugin-bugs">Bugs connus</a></li>
         </ul>
     </div>
     <!--Content-->
@@ -41,7 +42,7 @@
         	<li><strong>Ip SetUpBox:</strong><br/>
 			Il est nécessaire de trouver l'IP de la setUpBox Sensation et de la saisir dans les properties<br/>
 				<ul>
-					<i>chez moi elle a l'IP suivante : <strong>192.168.1.98</strong></i>
+					<i>chez moi elle à l'IP suivante : <strong>192.168.1.98</strong></i>
 				</ul>
                 Vous la trouverez en passant la souris sur "Equipement connecté"<br/>
                 <img src="assets/bboxTV/images/exemple2.jpg"/>
@@ -51,10 +52,15 @@
 
 			</li>
             <br/>
+            <li><strong>url_modem</strong><br/>
+                Url pour obtenir les info des IP connectés pour l'instant : <strong>http://gestionbbox.lan/novice/index.htm</strong>
+            </li>
             <li><strong>Equivalence Mac adresse <=> Nom des equipements:</strong><br/>
-                Pour qu'un nom explicité apparaisse dans la tableau, il est necessaire de modifier le fichier bboxTV.js les lignes de la forme : <br/>
-
-                Mettez a jours le tableau des nom des equipement en fonction de leur adresse map dans le fichier bboxTV.js
+                Pour qu'un nom explicité apparaisse dans la tableau, il est nécessaire de modifier dans le fichier bboxTV.js les lignes de la forme : <br/>
+                <pre>
+                        hosts['00:06:66:72:1a:db'] ='camera gabriel cable';
+                </pre>
+                
             </li>
         </ul>
     </div>
@@ -63,8 +69,20 @@
        <!--Principe-->
         <ul class="unstyled" id="plugin-version" style="display: none";>
             <h3>Historique des versions :</h3>
+            <li><strong>TODO :</strong></li>
+            <li><i class="icon-play-circle"></i> [ ] Déclencher une action quand une nouvelle IP est vu sur la BBOX</li>
+            <li><i class="icon-play-circle"></i> [ ] Déclencher une action quand une IP inconnue (pas configuré dans le tableau de node.js)</li>
+            <li><i class="icon-play-circle"></i> [ ] Type d'action : <br/>
+                <ul class="unstyled">
+                    <li>Envoie d'un mail</li>
+                    <li>Déclenchement d'un message TTS</li>
+                    <li>Appel d'une URL</li>
+                </ul>
+            </li>
+            <li><i class="icon-play-circle"></i> [ ] Positionner correctement la fenetre avec la liste des IP</li>
+            <br/>
             <li><strong>Version 1.0 (Olivier Chanteloup) :</strong></li>
-            <li><i class="icon-play-circle"></i> [X] Ajout des fonction de récupération des IP connecté a la bbox</li>
+            <li><i class="icon-play-circle"></i> [X] Ajout des fonction de récupération des IP connectées à la bbox</li>
             <li><i class="icon-play-circle"></i> [X] Ajout d'une fonction d'aide à la configuration de bbox sensation (STB)</li>
             <li><i class="icon-play-circle"></i> [X] Ajout de la télécommande sur le portlet </li>
             </br>
@@ -79,28 +97,36 @@
     </div>
     <div class="span9 content">
         <!--Principe-->
+        
         <ul class="unstyled" id="plugin-principe" style="display: none";>
-        	<<strong>Le fonctionnement:</strong><br/>
+            <h3>Le fonctionnement:</h3>
             <li>
         		Transforme les ordres vocaux interprétés par SARAH, en requêtes SNMP envoyé a la BBox Sensation
         	</li>
+            <li>
+                Permet de commander la STB à l'aide de la télécommande du portlet
+            </li>
+            <li>
+                Affiche les IP connues par la BBOX
+            </li>
         	<br/>
 			
         </ul>
     </div>
-		<!--Content-->
+		
     <div class="span9 content">
-  
-
-        <!--Exemples -->
+       <!--Exemples -->
         <ul class="unstyled" id="plugin-examples" style="display: none;">
+            <h3>Exemples:</h3>
             <li><i class="icon-play-circle"></i> <strong>Augmenter le son :</strong> SARAH, augmente le son de la bbox</li>
             <li><i class="icon-play-circle"></i> <strong>Visionner TF1 :</strong> SARAH, zappe sur TF1.</li>
 
         </ul>
-
+    </div>
 		<!--Infos-->
+    <div class="span9 content"> 
         <ul class="unstyled" id="plugin-infos" style="display: none;">
+            <h3>Infos:</h3>
         	<li>Ce plungin emprunte l'architecture et du code au plugin liveboxtv de Ferreira Agostinho; merci beaucoup à lui.</li><br/>
 			<li>il est basé sur le retro ingéniering de domitex, voici la référence de l'article <a href="http://domitex.blogspot.fr/2013/01/have-fun-avec-la-bbox-sensation.html">http://domitex.blogspot.fr/2013/01/have-fun-avec-la-bbox-sensation.html.</a></li><br/>
 
@@ -108,6 +134,16 @@
 
             
         </ul> 
+    </div>
+    <div class="span9 content">
+       <!--Exemples -->
+        <ul class="unstyled" id="plugin-bugs" style="display: none;">
+            <h3>Bugs connus:</h3>
+            <li><i class="icon-play-circle"></i> Impossible dans le cron de lire les fichier properties<br/>
+                                                Obligation de lancer une commande vocal, ou d'utilisé la telecommande du portlet pour forcer la lecture des properties
+            
+
+        </ul>
     </div>
 </div></body>
 </html>
