@@ -1,31 +1,10 @@
 <% stylesheet('assets/'+key+'/portlet.css') %>
 
 <strong>bboxTV</strong>
-<img src="assets/bboxTV/images/telecommande1.png" usemap="#map" />
-<div id="bbox-IP" >Equipement connectés</div>
+<div id="bbox-data"></div>
 
-<div id="bbox-data" style="position:absolute;visibility;background-color:#FFEEC7; border:1px solid yellow;padding:0.2em; font-size:0.8em">info bulz
-e
-e
-e
-e
-e
-e
-e
-e
-e
-e
-e
-e
-e
-e
-e
-e
-ee
-e
-e
-e
-</div>
+<div id="bbox-IP" >Equipement connectés</div>
+<img src="assets/bboxTV/images/telecommande1.png" usemap="#map" />
 
 <map name="map">
 <!-- #$-:Image map file created by GIMP Image Map plug-in -->
@@ -86,4 +65,13 @@ function  callSTB(url) {
 }
 $("#bbox-data").hide();
 $("#bbox-IP").on("mouseenter", function() {$("#bbox-data").show();console.log("in"); }).on("mouseleave",function(){$("#bbox-data").hide();console.log("out")});
+var pos = $('.plugin-gridster.bboxTV .front').offset();
+var top = pos.top + '100';
+var left = pos.left + '100';
+
+$('#bbox-data').css({
+    position:'absolute',
+    top:top,
+    left:left
+});
 </script>
