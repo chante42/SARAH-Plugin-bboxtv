@@ -27,7 +27,7 @@
         <ul class="nav nav-list">
             <li class="nav-header">Documentation</li>
             <li><a href="#" data-toggle="plugin-installation">Installation</a></li>
-            <li><a href="#" data-toggle="plugin-principe">Le Principe</a></li>
+            <li><a href="#" data-toggle="plugin-principe">Le Fonctionnement</a></li>
             <li><a href="#" data-toggle="plugin-examples">Exemples</a></li>
             <li><a href="#" data-toggle="plugin-infos">Infos</a></li>
             <li><a href="#" data-toggle="plugin-version">Historique des Versions</a></li>
@@ -43,10 +43,17 @@
 				<ul>
 					<i>chez moi elle a l'IP suivante : <strong>192.168.1.98</strong></i>
 				</ul>
-            
+                Vous la trouverez en passant la souris sur "Equipement connecté"<br/>
+                <img src="assets/bboxTV/images/exemple2.jpg"/>
+                <br/>
+                En plus de l'ensemble des IP connecté a la Bbox <br/>
+                <img src="assets/bboxTV/images/exemple1.jpg"/>
+
 			</li>
             <br/>
-            <li><strong>equivalence Mac adresse <=> Nom des equipements:</strong><br/>
+            <li><strong>Equivalence Mac adresse <=> Nom des equipements:</strong><br/>
+                Pour qu'un nom explicité apparaisse dans la tableau, il est necessaire de modifier le fichier bboxTV.js les lignes de la forme : <br/>
+
                 Mettez a jours le tableau des nom des equipement en fonction de leur adresse map dans le fichier bboxTV.js
             </li>
         </ul>
@@ -73,7 +80,8 @@
     <div class="span9 content">
         <!--Principe-->
         <ul class="unstyled" id="plugin-principe" style="display: none";>
-        	<li><strong>Principe :</strong><br/>
+        	<<strong>Le fonctionnement:</strong><br/>
+            <li>
         		Transforme les ordres vocaux interprétés par SARAH, en requêtes SNMP envoyé a la BBox Sensation
         	</li>
         	<br/>
@@ -82,18 +90,7 @@
     </div>
 		<!--Content-->
     <div class="span9 content">
-       <!--Principe-->
-		
-      <!--fonctionnement-->
-        <ul class="unstyled" id="plugin-fonctionnement" style="display: none;">
-            <li><i class="icon-play-circle"></i><strong> Sarah recoit une nouvelle requète:</strong></br>
-			La requète est traitée:</br>
-			Génération de askme.xml pour prendre en compte réponse et action.</br>
-			La requète est ajoutée dans le fichier askme.json</br>
-			Sarah pose la question et attends la réponse durant le temps <em>timeout</em>.</br></br>
-
-          
-        </ul>
+  
 
         <!--Exemples -->
         <ul class="unstyled" id="plugin-examples" style="display: none;">
