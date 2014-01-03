@@ -3,7 +3,7 @@
 	    "bboxTV" : {
 	      	"name"        : "bboxTV",
 	      	"description" : "Permet de rafraichir les informations du portlet pour le plugin bboxTV.",
-	      	"version"     : "0.9",
+	      	"version"     : "1.0",
 	      	"h"           : "1",
 	      	"w"           : "1",
 	      	"time"        : "* * * * *"
@@ -13,7 +13,7 @@
 	"modules" : { 
 	    "bboxTV"  : {
 	      "description"		: "Permet de piloter la STB BBox Sensation",
-	      "version" 		: "0.9",
+	      "version" 		: "1.0",
 	      "h"           	: "3",
 	      "w"           	: "1",
 	      "adress_ip_stb" 	: "192.168.1.98",

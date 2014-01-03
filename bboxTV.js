@@ -27,7 +27,7 @@ hosts['b8:27:eb:e6:66:95'] = "raspberry pi test cable";
 hosts['a def3           '] = "raspberry pi test wifi";
 hosts['f4:81:39:18:9a:44'] = "imprimante CANON MG5350 Wifi";
 hosts['2c:39:96:52:63:61'] = "STB sensation";
-
+hosts['d4:3d:7e:df:98:b7'] = "PC Eric";
 var UrlModem="";
 //
 // function : CRON
@@ -275,26 +275,37 @@ quiEstLaBbox = function(config){
 		//console.log('JSON', json);
 
 		var resultat="";
+		var resultatHTML='<TABLE id="bboxIPTable"><TR><TH>nom perso</TH><TH>IP</TH><TH>MAC</TH><TH>Hostname</TH><TH>Lease</TH><TH>AdresseTYPE</TH><TH>Interface</TH></TR>';
 		var util = require('util');
 
 		for (var line  in json) {
 			if (line !="Count") {
 				
 				if (json[line].Active == "1") {
- 
+ 					try {
+						resultat = resultat +"\t"+hosts[json[line].MACAddress]+".\n";
+						resultatHTML = resultatHTML +"<TR><TD>"+hosts[json[line].MACAddress]+"</TD>\n";
+					}
+					catch(e) {
+						resultat = resultat + "\n";
+						resultatHTML = resultatHTML +"<TR><TD></TD>";
+					}
 					resultat = resultat + util.format('%s\t[%s]\t[%s]\t%s\t[%s]\t[%s]=> ',
 						json[line].IPAddress,
 						json[line].MACAddress,
 						json[line].Hostname,
-						json[line].LeaseRemaining,
+						conversionSecondeHeure(parseInt(json[line].LeaseRemaining)),
 						json[line].AddressingType,
 						json[line].InterfaceType);
-					try {
-						resultat = resultat +"\t"+hosts[json[line].MACAddress]+".\n";
-					}
-					catch(e) {
-						resultat = resultat + "\n";
-					}
+
+					resultatHTML = resultatHTML + util.format('<TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD></TR>\n',
+						json[line].IPAddress,
+						json[line].MACAddress,
+						json[line].Hostname,
+						conversionSecondeHeure(parseInt(json[line].LeaseRemaining)),
+						json[line].AddressingType,
+						json[line].InterfaceType);
+					
 				}
 			}
 		}
@@ -329,8 +340,9 @@ quiEstLaBbox = function(config){
 		resultat = resultat + "\n\n["+ json1.Device[1].MACAddress +"] =>";
 		resultat = resultat + json1.Device[1].IPAddress;
 
-		resultatHTML = resultat.replace(/\n/g,"<BR/>");
-		console.log(resultat);
+				
+		resultatHTML = "MAJ : "+ Date() +"<BR/><strong>IP de la STB a configurer dans le propertie : " + json1.Device[1].IPAddress+ "</strong>" + resultatHTML +"</TABLE>";
+		console.log(resultat);     
 
 		// sauvegarde dans le fichier de resultat
 		var fs = require('fs');
@@ -386,3 +398,59 @@ function CheckJson(jsonString) {
 		eval('(' + jsonString + ')'));
 }
         
+
+//
+// function : conversionSecondeHeure
+//
+function conversionSecondeHeure(time)
+{
+	//86400 = 3600*24 c'est à dire le nombre de secondes dans un seul jour ! donc là on vérifie si le nombre de secondes donné contient des jours ou pas
+	if (time>=86400)
+    {
+		// Si c'est le cas on commence nos calculs en incluant les jours
+		// on divise le nombre de seconde par 86400 (=3600*24)
+		// puis on utilise la fonction floor() pour arrondir au plus petit
+		var jour = Math.floor(time/86400);
+		// On extrait le nombre de jours
+		var reste = time%86400;
+ 
+		var heure = floor(reste/3600);
+		// puis le nombre d'heures
+		var reste = reste%3600;
+ 
+		var minute = Math.floor(reste/60);
+		// puis les minutes
+ 
+		var seconde = reste%60;
+		// et le reste en secondes
+ 
+		// on rassemble les résultats en forme de date
+		var result = jour+'j'+heure+'H'.minute+'M'+seconde+'S';
+ 
+	}
+	else if (time < 86400 && time>=3600)// si le nombre de secondes ne contient pas de jours mais contient des heures
+	{
+		// on refait la même opération sans calculer les jours
+		var heure = Math.floor(time/3600);
+		var reste = time%3600;
+ 
+		var minute = Math.floor(reste/60);
+ 
+		var seconde = reste%60;
+ 
+		var result = heure+'H'+minute+'M'+seconde+'S';
+	}
+	else if (time<3600 && time>=60)// si le nombre de secondes ne contient pas d'heures mais contient des minutes
+	{
+		var minute = Math.floor(time/60);
+		var seconde = time%60;
+		var result = minute+'M'+seconde+'S';
+	}
+	else if (time < 60) // si le nombre de secondes ne contient aucune minutes
+	{
+		var result = time+'S';
+	}
+ 
+	return result;	
+}
+ 
